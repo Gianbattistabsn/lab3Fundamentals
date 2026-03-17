@@ -4,26 +4,21 @@ import torchvision.transforms as T
 
 class DataLoader():
      """
-     Applies some transformations to the data
+     Applies some transformations to the data and gives you a DataLoader object
      """
-     defTransform = T.Compose([
-          T.Resize((224, 224)),  # Resize to fit the input dimensions of the network
-          T.ToTensor(),
-          T.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
-     ])
-
-
-
      def __init__(self, root:str, transformations:T.Compose = None):
           if transformations is None:
-               self.transform = defTransform
+               self.transform = T.Compose([
+                    T.Resize((224, 224)),  # Resize to fit the input dimensions of the network
+                    T.ToTensor(),
+                    T.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
+               ])
           else:
                self.transform = transformations
           
           self.root = root
           self.imageFolder = ImageFolder(root, transformations = self.transform)
 
-          return self
 
      def getCardinality(self) -> int:
           return len(self.imageFolder)
